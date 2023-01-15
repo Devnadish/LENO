@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from "styled-components";
+
 import MyRoutes from '../Routes/MyRoutes';
- 
+
 
 
 const BodyWrapper = styled.div`
@@ -17,7 +18,7 @@ const BodyWrapper = styled.div`
   
   /* background-color: red; */
   width:100%;
-  margin-top: 5rem;
+  margin-top: 6rem;
   `;
 
 
@@ -33,7 +34,6 @@ height: 100px;
 function Body({children}) {
   return (
     <BodyWrapper>
-    
     <MyRoutes/>
     </BodyWrapper>
   );

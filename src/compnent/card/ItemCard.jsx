@@ -9,11 +9,11 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import MdOutlineExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Chip } from '@mui/material';
 import { RiShoppingBasketFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-
+import {MdOutlineExpandMore} from "react-icons/md"
 
 
 const ExpandMore = styled((props) => {
@@ -101,7 +101,7 @@ export default function ItemCard({productId,Xavatar,type,description,image,title
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
+          <MdOutlineExpandMore />
         </ExpandMore>
 
 

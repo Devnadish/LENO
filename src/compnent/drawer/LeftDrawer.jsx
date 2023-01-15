@@ -3,6 +3,7 @@ import Drawer from "@mui/material/Drawer";
 import { Box,Button,Typography } from "@mui/material";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import data from "../../data/all.json"
+import {whatsapp} from "../../logic/services"
 
 function LeftDrawer({ open, setOpen, children, drawerWidth, anchor, drHight ,title="سلة المشتريات"}) {
   const {  cartItems } = useShoppingCart();
@@ -13,7 +14,10 @@ function LeftDrawer({ open, setOpen, children, drawerWidth, anchor, drHight ,tit
      return total + (item?.price || 0) * cartItem.quantity;
 
    }, 0)
-  const handlejob=() => {alert("Job")}
+  const handlejob = () => {
+    // alert("Job");
+    whatsapp()
+  };
 
   return (
     <>

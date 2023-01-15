@@ -7,6 +7,7 @@ const Crumb=lazy(()=>import("../../pages/crumb/Crumb"))
 const Backary=lazy(()=>import("../../pages/backary/Backary"))
 const Frozen=lazy(()=>import("../../pages/frozen/Frozen"))
 const Order=lazy(()=>import("../../pages/order/Order"))
+const Register=lazy(()=>import("../../compnent/login/Register"))
 
 function MyRoutes() {
   return (
@@ -19,6 +20,7 @@ function MyRoutes() {
         <Route path="/backary" element={<Backary/>} />
         <Route path="/frozen" element={<Frozen />} />
         <Route path="/Order/:id" element={<Order />} />
+        <Route path="/register" element={<Register />} />
         
         {/* <Route path="*" element={<PageNotFound />} /> */}
       </Route>
