@@ -8,9 +8,12 @@ import { ErrorBoundary } from "react-error-boundary";
 import TopMenu from "./compnent/topMenu/TopMenu";
 import Body from "./compnent/body/Body";
 import ShoppingCartProvider from "./compnent/context/ShoppingCartContext";
-import Login from './compnent/login/Login';
-import useLogin from "./compnent/utils/hooks/useLogin";
-import { Box, Button, Typography } from "@mui/material";
+import UserContext from "./compnent/context/UserContext";
+import supabase from './logic/database/supabase';
+import Comments from "./compnent/comments/Comments";
+import {CommentLoader} from "./compnent/loader/Loader";
+
+
 
 const Container = styled.div`
   position: relative;
@@ -24,32 +27,47 @@ const Container = styled.div`
   background-color: whitesmoke;
 `;
 
+
 function App() {
-  const {login,setIslogin,userName}=useLogin()
+
   const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
 
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() =>{
+  const getData =async ()=>{
+    setLoading(true)
+    const { count:commentCountRows } = await supabase
+    .from("comment")
+    .select('*',{count:'exact'})
+    setCommentCount(commentCountRows)
+    setLoading(false)
+  console.log(commentCount)
+  }
   
-  },[login])
 
-  // const [user,setUser] = useState({name:"khalid",phone:"05046642264"});
+
+
+
+
+useEffect(()=>{getData()},[])
+  
   return (
     <>
-      <ErrorBoundary fallback={<h1 style={{color:"black"}}> Error </h1>}>
-      <ShoppingCartProvider>
-        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <ErrorBoundary fallback={<h1 style={{ color: "black" }}> Error </h1>}>
+        <ShoppingCartProvider>
+          <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <BrowserRouter>
-          <TopMenu />
-          <Container>
-          {login ? <InfoBar userName={userName}  setIslogin={setIslogin}/>: <Login setIslogin={setIslogin}/>}
-            
-              <Body />
-          </Container>
+              <UserContext>
+                <TopMenu />
+                <Container>
+
+                 {loading ? <CommentLoader/>:<Comments commentCount={commentCount} />}
+
+                  <Body />
+                </Container>
+              </UserContext>
             </BrowserRouter>
-        </ThemeProvider>
+          </ThemeProvider>
         </ShoppingCartProvider>
         <ToastContainer
           position="top-center"
@@ -71,39 +89,4 @@ function App() {
 
 export default App;
 
-const InfoBar=({userName,setIslogin})=>{
-  
-  const Logout=()=>{
-    localStorage.removeItem("isLogged");
-    setIslogin(false);
-  }
-  return (
-  <>
-    <Box
-      sx={{
-        height: "30px",
-        width: "100%",
-        backgroundColor: "#94c93d",
-        position: "absolute",
-        top: "60px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Button
-        variant="contained"
-        sx={{ ml: 2, height: "20px", backgroundColor: "#3D4C61" }}
-        onClick={Logout}
-      >
-        <Typography fontSize={"12px"} fontFamily={"NX"}>
-          خروج
-        </Typography>
-      </Button>
-      <Typography mr={2} fontFamily={"NX"} sx={{ color: "#3D4C61" }}>
-        مرحبا .. {userName}
-      </Typography>
-    
-    </Box>
-  </>
-);}
+

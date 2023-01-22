@@ -1,0 +1,160 @@
+
+import React, { useState } from "react";
+import "./styles.css";
+
+const App = () => {
+  const [imgPreview, setImgPreview] = useState(null);
+  const [error, setError] = useState(false);
+
+  const handleImageChange = (e) => {
+    setError(false);
+    const selected = e.target.files[0];
+    const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/jpg"];
+    if (selected && ALLOWED_TYPES.includes(selected.type)) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setImgPreview(reader.result);
+      };
+      reader.readAsDataURL(selected);
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <div className="App">
+      <div className="container">
+        {error && <p className="errorMsg">File not supported</p>}
+        <div
+          className="imgPreview"
+          style={{
+            background: imgPreview
+              ? `url("${imgPreview}") no-repeat center/cover`
+              : "#131313"
+          }}
+        >
+          {!imgPreview && (
+            <>
+              <p>Add an image</p>
+              <label htmlFor="fileUpload" className="customFileUpload">
+                Choose file
+              </label>
+              <input type="file" id="fileUpload" onChange={handleImageChange} />
+              <span>(jpg, jpeg or png)</span>
+            </>
+          )}
+        </div>
+        {imgPreview && (
+          <button onClick={() => setImgPreview(null)}>Remove image</button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------ comment side menu
+const SideMenu = ( {login}) => {
+    const meunStyle = {
+      fontFamily: "CB",
+      fontSize: ".7rem",
+      color:"#F8FAFC",
+      p:.8,
+    };
+    const counterStyle = {
+        fontFamily:"sans-serif",
+            alignSelf:"end",
+            fontSize:"10px",
+            color:"#E2E8F0",
+            ml:.5,
+      };
+      const boxMenuStyle={
+        display: "flex",
+        width: "100%",
+        alignItems: "end",
+        justifyContent: "space-between",
+        borderBottom: "2px solid",
+        backgroundColor:"#3D4C61",
+        "&:hover":{
+            boxShadow:4,
+            backgroundColor:"#566986",
+        }
+      
+    }
+const   handleComment =()=>{
+    alert(login)
+}
+    
+  return (
+    <>
+      <Box
+        sx={{
+          width: "20%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          alignItems: "end",
+          boxShadow: 1,
+          backgroundColor: "#BEF264",
+          borderRadius: 2,
+        }}
+      >
+
+<Box sx={{alignSelf:"center"}} >
+      <Fab color="secondary"
+    //    sx={{backgroundColor:"#3D4C61" ,color:"white"}}
+     aria-label="add" 
+     onClick={handleComment}
+     disabled={login ? false : true }
+        >
+        <TfiCommentsSmiley size={"2.5rem"} />
+      </Fab>
+    </Box>
+
+         {/* <Box sx={AddboxMenuStyle}>
+           <Typography sx={counterStyle}>80</Typography> 
+           <TfiCommentsSmiley size={"2rem"}/>
+          <Typography sx={meunStyle}>اضف تعليقك</Typography>
+       
+        </Box>  */}
+
+        <Box sx={boxMenuStyle}>
+          <Typography sx={counterStyle}>80</Typography>
+          <Typography sx={meunStyle}>عام</Typography>
+        </Box>
+        <Box sx={boxMenuStyle}>
+          <Typography sx={counterStyle}>50</Typography>
+          <Typography sx={meunStyle}>ورق عنب</Typography>
+        </Box>
+        <Box sx={boxMenuStyle}>
+          <Typography sx={counterStyle}>120</Typography>
+          <Typography sx={meunStyle}>ملفوف</Typography>
+        </Box>
+        <Box sx={boxMenuStyle}>
+          <Typography sx={counterStyle}>10</Typography>
+          <Typography sx={meunStyle}>معجنات</Typography>
+        </Box>
+        <Box sx={boxMenuStyle}>
+          <Typography sx={counterStyle}>22</Typography>
+          <Typography sx={meunStyle}>مفرزنات</Typography>
+        </Box>
+        
+      </Box>
+    </>
+  );
+};

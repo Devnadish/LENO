@@ -6,10 +6,14 @@ import { Link } from 'react-router-dom';
 import {FiUserPlus} from "react-icons/fi"
 import {MdLogin} from "react-icons/md"
 import supabase from '../../logic/database/supabase';
-import useLogin from "../utils/hooks/useLogin";
+import { useUser } from '../context/UserContext';
+import { toast } from 'react-toastify';
+import {setLocalStorage} from "../../logic/logInLogic"
 
 
-export default function Login({setIslogin}) {
+
+/* ------------------------------------------------------------ */
+export default function Login() {
   const [open,setOpen]=useState(false)
   const handlelogin=()=>{setOpen(true)}
   return (
@@ -19,37 +23,72 @@ export default function Login({setIslogin}) {
         <FaUserCircle size={"2.5rem"} />
       </Fab>
     </Box>
-    {open && <DiloagShow open={open} toggle={setOpen} titleColor={"#3D4C61"}><LoginControl setOpen={setOpen} setIslogin={setIslogin}/></DiloagShow>}
+    {open && <DiloagShow open={open} toggle={setOpen} titleColor={"#3D4C61"}><LoginControl setOpen={setOpen} /></DiloagShow>}
     </>
   );
 }
+/* ------------------------------------------------------------ */
 
-const LoginControl = ({setOpen,setIslogin}) => {
-const [user,setUser]=useState(null)
-const [userData,setUserData]=useState({})
-// const {setIslogin}=useLogin()
+const LoginControl = ({setOpen}) => {
+const [userName,setUserName]=useState(null)
+const [userPass,setUserPass]=useState(null)
+const {setUser,setIslogin} = useUser()
 
-
-
-  const loginLogic =async() => {
-const { data, error } = await supabase
-  .from("user")
-  .select()
-  .eq("phone", user)
-  
-
-
-if (data){
-  setUserData({ name: data[0]?.name, phone: data[0]?.phone });
-  localStorage.setItem("isLogged", JSON.stringify({ name: data[0]?.name, phone: data[0]?.phone }));
-  setIslogin(true)
-  setOpen(false);
-
-  
-}
-if (error) console.log(error);
- 
+const validate=()=>{
+  let result=true
+  if (userName === "" || userName === null) {
+    result = false;
+    toast.warn("ادخل اسم المستخدم")
   }
+  if (userPass === "" || userPass === null) {
+    result = false;
+    toast.warn("ادخل كلمة السر")
+  }
+  return result
+}
+
+
+  const loginLogic = async () => {
+    if(validate()){
+
+      const { data, error } = await supabase.from("user").select().eq("phone", userName);
+      if (error) console.log(error);
+      /* ------------Not Exist--------------- */
+      if (data.length === 0) {
+        toast.info("  المستخدم غير موجود");
+      }
+      /* ------------if Exist--------------- */
+      else
+      {
+      /* ------------if password wrong--------------- */
+        if (data[0].password !== userPass) {
+          toast.error("كلمة السر غير صحيحه");
+        }else{
+        /* ------------if all right--------------- */
+          setLocalStorage( data[0]?.name,data[0]?.phone)
+          setIslogin(true);
+          setOpen(false);
+          setUser({ name: data[0]?.name, phone: data[0]?.phone,login:true });
+        }
+
+      }
+      /* --------------------------- */
+      
+        
+        
+      
+    }
+     
+    
+  };
+
+
+
+
+  const handleRegestration = () => {
+    setOpen(false);
+    
+  };
   return (
     <>
       <Box
@@ -67,9 +106,25 @@ if (error) console.log(error);
           id="outlined-basic"
           size="small"
           // value={user}
-          onChange={(e)=>setUser(e.target.value)}
+          onChange={(e)=>setUserName(e.target.value)}
           label={
             <Typography fontFamily={"NX"}>رقم الجوال او الايميل</Typography>
+          }
+          variant="outlined"
+          InputProps={{
+            inputProps: {
+                style: { textAlign: "center" },
+            }
+        }}
+        />
+
+        <TextField
+          size="small"
+          // value={user}
+          type="password"
+          onChange={(e)=>setUserPass(e.target.value)}
+          label={
+            <Typography fontFamily={"NX"}>كلمة السر</Typography>
           }
           variant="outlined"
           InputProps={{
@@ -91,6 +146,7 @@ if (error) console.log(error);
             component={Link}
             startIcon={<FiUserPlus />}
             to={"/register"}
+            onClick={handleRegestration }
           >
             <Typography fontFamily={"NX"}>تسجيل</Typography>
           </Button>
@@ -101,7 +157,6 @@ if (error) console.log(error);
         </Box>
         <Link>
           <Typography fontSize={"12px"} fontFamily={"NX"}>
-            {" "}
             نسيت كلمة المرور ؟
           </Typography>
         </Link>

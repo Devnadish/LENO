@@ -21,13 +21,14 @@ function Logo() {
     <>
       <Box
         sx={{
-          width: "4rem",
+          width: {xs:"3rem",sm:"3rem",md:"4rem"},
           height: "2.5rem",
           display:"flex",
           justifyContent: "flex-end",
           alignItems: "center",
           position: "relative",
           ml:.5
+
         }}
       >
         <LogoImage src="/images/logo-assets/logo.png" />
