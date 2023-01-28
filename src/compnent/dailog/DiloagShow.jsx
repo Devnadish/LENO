@@ -35,17 +35,9 @@ function DiloagShow({
             
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily:"CB",
-              color: "background.paper",
-              fontSize:"1rem"
-            }}
-            px={2}
-          >
+         
             {title}
-          </Typography>
+         
 
           <Button
             onClick={() => toggle(false)}

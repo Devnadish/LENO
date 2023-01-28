@@ -7,13 +7,13 @@ import {useUser} from "../context/UserContext"
 import supabase from '../../logic/database/supabase';
 import { toast } from 'react-toastify';
 
-const WriteComment = () => {
-  const {user}=useUser()
+const WriteComment = ({comment,setComment}) => {
+  const {user,getCommentData}=useUser()
     const [loading,setLoading]=useState(false)
-    const [comment,setComment]=useState("")
+
     const handleSubmit=async (e)=>{
         e.preventDefault()
-        console.log(user)
+        // console.log(user)
         if (comment.length===0){
 
           toast.info("اضف تعليقك")
@@ -27,6 +27,7 @@ const WriteComment = () => {
           }else{
             setComment("")
             toast.success("شكرا..")
+            getCommentData()
           }
           setLoading(false)
   }

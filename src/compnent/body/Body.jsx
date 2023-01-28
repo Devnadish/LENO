@@ -1,6 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styled from "styled-components";
-
+import {useUser} from "../../compnent/context/UserContext";
+import Comments from '../comments/Comments';
+import { CommentLoader } from '../loader/Loader';
 import MyRoutes from '../Routes/MyRoutes';
 
 
@@ -18,7 +20,8 @@ const BodyWrapper = styled.div`
   
   /* background-color: red; */
   width:100%;
-  margin-top: 6rem;
+  margin: 6rem 0  auto auto;
+  /* margin-top: 6rem; */
   `;
 
 
@@ -32,10 +35,17 @@ height: 100px;
 
 
 function Body({children}) {
+  const {commentsCount, setCommentsCount}=useUser()
+  const [loading, setLoading] = useState(false);
+  /* console.log({}) */
   return (
+    <>
     <BodyWrapper>
+    {loading ? <CommentLoader/>:<Comments commentCount={commentsCount} />}
+
     <MyRoutes/>
     </BodyWrapper>
+    </>
   );
 }
 

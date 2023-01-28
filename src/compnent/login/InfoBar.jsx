@@ -1,16 +1,21 @@
 import React, {useState } from "react";
 import { Avatar, Box,  IconButton } from "@mui/material";
-
 import Submenu from "./Submenu";
+import { useNavigate } from "react-router-dom";
 
-function InfoBar({ userName, userPhone, setIslogin }) {
+
+function InfoBar({ userName, userPhone, setIslogin,setUser }) {
   const [userImage, setUserImage] = useState(null);
   const [submenu, setSubmenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate=useNavigate()
 
   const logout = () => {
     localStorage.removeItem("lenoUser");
     setIslogin(false);
+    setUser(null)
+    navigate("/")
+
   };
 
   const avatar =
@@ -35,7 +40,7 @@ function InfoBar({ userName, userPhone, setIslogin }) {
       <Box
         sx={{
           height: "30px",
-          width: "100%",
+          width: {xs:"100%",md:"95%"},
           position: "absolute",
           top: "65px",
           display: "flex",

@@ -8,7 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import TopMenu from "./compnent/topMenu/TopMenu";
 import Body from "./compnent/body/Body";
 import ShoppingCartProvider from "./compnent/context/ShoppingCartContext";
-import UserContext from "./compnent/context/UserContext";
+import UserContext,{useUser} from "./compnent/context/UserContext";
 import supabase from './logic/database/supabase';
 import Comments from "./compnent/comments/Comments";
 import {CommentLoader} from "./compnent/loader/Loader";
@@ -30,6 +30,7 @@ const Container = styled.div`
 
 function App() {
 
+ 
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
@@ -41,7 +42,7 @@ function App() {
     .select('*',{count:'exact'})
     setCommentCount(commentCountRows)
     setLoading(false)
-  console.log(commentCount)
+  // console.log(commentCount)
   }
   
 
@@ -49,7 +50,10 @@ function App() {
 
 
 
-useEffect(()=>{getData()},[])
+useEffect(() => {
+  // getData();
+
+}, []);
   
   return (
     <>
@@ -61,8 +65,7 @@ useEffect(()=>{getData()},[])
                 <TopMenu />
                 <Container>
 
-                 {loading ? <CommentLoader/>:<Comments commentCount={commentCount} />}
-
+                
                   <Body />
                 </Container>
               </UserContext>

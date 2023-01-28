@@ -9,6 +9,8 @@ const Frozen=lazy(()=>import("../../pages/frozen/Frozen"))
 const Order=lazy(()=>import("../../pages/order/Order"))
 const Register=lazy(()=>import("../../compnent/login/Register"))
 const CommentPage=lazy(()=>import("../comments/CmmentPage"))
+const Statment =lazy(()=>import("../../pages/statment/Statments"))
+const NewPassword =lazy(()=>import("../login/NewPassword"))
 
 function MyRoutes() {
   return (
@@ -23,6 +25,9 @@ function MyRoutes() {
         <Route path="/Order/:id" element={<Order />} />
         <Route path="/register" element={<Register  />} />
         <Route path="/commentpage" element={<CommentPage  />} />
+        <Route path="/statment" element={<Statment  />} />
+        <Route path="/newpassword" element={<NewPassword  />} />
+        
         
         {/* <Route path="*" element={<PageNotFound />} /> */}
       </Route>

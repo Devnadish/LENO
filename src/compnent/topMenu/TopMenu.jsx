@@ -1,14 +1,11 @@
-import React,{useState} from "react";
-import Logo from "../logo/Logo";
+import React from "react";
 import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
-import { RiShoppingBasketFill } from "react-icons/ri";
-import { Box, IconButton, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import Counter from "../badge/Counter";
-import LeftDrawer from "../drawer/LeftDrawer"
+import { Box } from "@mui/material";
 import { useShoppingCart } from "../context/ShoppingCartContext";
-import Basket from "../basket/Basket";
+import { MiddleMenu } from "./MiddleMenu";
+import { LeftMenu } from "./LeftMenu";
+import { RightMenu } from "./RightMenu";
 
 
 const SideWrapper = styled.div`
@@ -27,7 +24,7 @@ const SideWrapper = styled.div`
   z-index: 100;
 `;
 
-const MenuImageWraper = styled.div`
+export const MenuImageWraper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,12 +34,12 @@ const MenuImageWraper = styled.div`
   border-radius: 5px;
   /* border:1px solid black; */
 `;
-const MenuImage = styled.img`
+export const MenuImage = styled.img`
   max-width: 25px;
   max-height: 25px;
 `;
 
-const BasketMenuImageWraper = styled.div`
+export const BasketMenuImageWraper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,117 +75,6 @@ function TopMenu() {
     </Box>
   );
 }
-
 export default TopMenu;
 
-const RightMenu = ({cartQuantity,cartItems,removeFromCart}) => {
-  console.log({cartQuantity})
-  const [open,setOpen]=useState(false)
-  return (
-    <>
-      <Box
-        sx={{
-          width: "15%",
-          borderLeft: "2px solid #94c93d",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <BasketMenuImageWraper>
-          <IconButton onClick={() => setOpen(true)}>
-            <Counter badgeContent={cartQuantity} color="secondary">
-              <RiShoppingBasketFill size={"2rem"} color="#94c93d" />
-            </Counter>
-          </IconButton>
-        </BasketMenuImageWraper>
 
-        {/* <MenuImageWraper>
-          <FaUserCircle size={"2rem"} color="#94c93d" />
-        </MenuImageWraper> */}
-      </Box>
-      {open ? (
-        <LeftDrawer open={open} setOpen={setOpen}>
-          <ShowPrduct cartItems={cartItems} removeFromCart={removeFromCart} />
-        </LeftDrawer>
-      ) : null}
-    </>
-  );
-};
-const LeftMenu = () => {
-  return (
-    <>
-      <Box
-        sx={{
-          width: "15%",
-          borderRight: ".5px solid #94c93d",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          // ml:1
-        }}
-      >
-          <Link to={"/"}>
-
-        <Logo />
-          </Link>
-      </Box>
-    </>
-  );
-};
-
-const MiddleMenu = () => {
-  return (
-    <>
-      <Box
-        sx={{
-          maxWidth: "70%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <Link to={"/grap"}>
-          <MenuImageWraper>
-            <MenuImage src="/images/logo-assets/grapeLogo.png" />
-            <Typography fontFamily={"NX"} fontSize={"12px"} width={"45px"} color={"text.secondary"}>ورق عنب</Typography>
-          </MenuImageWraper>
-        </Link>
-        <Link to={"/crumb"}>
-          <MenuImageWraper>
-            <MenuImage src="/images/logo-assets/crom.png" />
-            <Typography fontFamily={"NX"} fontSize={"12px"} width={"45px"} color={"text.secondary"}>ملفوف</Typography>
-          </MenuImageWraper>
-        </Link>
-        <Link to={"/backary"}>
-          <MenuImageWraper>
-            <MenuImage src="/images/logo-assets/muagnat.png" />
-            <Typography fontFamily={"NX"} fontSize={"12px"} width={"45px"} color={"text.secondary"}>معجنات</Typography>
-          </MenuImageWraper>
-        </Link>
-        <Link to={"/frozen"}>
-          <MenuImageWraper>
-            <MenuImage src="/images/logo-assets/mfrznat.png" />
-            <Typography fontFamily={"NX"} fontSize={"12px"} width={"45px"} color={"text.secondary"}>مفرزنات</Typography>
-          </MenuImageWraper>
-        </Link>
-      </Box>
-    </>
-  );
-};
-
-
-const ShowPrduct = ({ cartItems,removeFromCart }) => {
-  return (
-    <>
-      
-        {cartItems.map((el) => (
-          <React.Fragment key={el.productId}>
-            <Basket  productId={el.productId} qty={el.quantity} removeFromCart={removeFromCart}/>
-          </React.Fragment>
-        ))}
-    
-    </>
-  );
-};

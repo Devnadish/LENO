@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Login from "../login/Login";
 import InfoBar from "../login/InfoBar"
+import supabase from "../../logic/database/supabase";
 
 
 
@@ -18,7 +19,17 @@ if (localStorage.getItem("lenoUser") === null || localStorage.getItem("lenoUser"
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(initialUser);
   const [login, setIslogin] = useState(false);
+  const [commentsCount, setCommentsCount] = useState(0);
 
+
+  const getCommentData =async ()=>{
+  
+    const { count:commentCountRows } = await supabase
+    .from("comment")
+    .select('*',{count:'exact'})
+    setCommentsCount(commentCountRows)
+   
+  }
   
 
   useEffect(() => {
@@ -26,9 +37,10 @@ const UserProvider = ({ children }) => {
     user?.name === '' && setIslogin(false)
     user?.name === null && setIslogin(false)
     user?.name === undefined && setIslogin(false)
-    setIslogin(user.login)
-    
-  }, [user]);
+    setIslogin(user?.login)
+    getCommentData()
+      
+  }, [user,commentsCount]);
 
   /* ------------------------------------------------------------------ */
   return (
@@ -37,11 +49,13 @@ const UserProvider = ({ children }) => {
         user,
         setUser,
         login,
-        setIslogin
+        setIslogin,
+        commentsCount,
+        setCommentsCount,getCommentData
       }}
     >
       {children}
-      {login ? <InfoBar userName={user?.name} userPhone={user?.phone} setIslogin={setIslogin}/>: <Login />}
+      {login ? <InfoBar userName={user?.name} userPhone={user?.phone} setIslogin={setIslogin} setUser={setUser}/>: <Login />}
     {/* <Comments/> */}
 
     </UserContext.Provider>

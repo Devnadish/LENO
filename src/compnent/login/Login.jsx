@@ -33,7 +33,7 @@ const LoginControl = ({setOpen}) => {
 const [userName,setUserName]=useState(null)
 const [userPass,setUserPass]=useState(null)
 const {setUser,setIslogin} = useUser()
-
+/* ------------------- */
 const validate=()=>{
   let result=true
   if (userName === "" || userName === null) {
@@ -47,10 +47,9 @@ const validate=()=>{
   return result
 }
 
-
+/* ------------------------------- */
   const loginLogic = async () => {
     if(validate()){
-
       const { data, error } = await supabase.from("user").select().eq("phone", userName);
       if (error) console.log(error);
       /* ------------Not Exist--------------- */
@@ -70,24 +69,13 @@ const validate=()=>{
           setOpen(false);
           setUser({ name: data[0]?.name, phone: data[0]?.phone,login:true });
         }
-
       }
       /* --------------------------- */
-      
-        
-        
-      
     }
-     
-    
   };
-
-
-
-
+/* ---------------------------------------------------------------- */
   const handleRegestration = () => {
     setOpen(false);
-    
   };
   return (
     <>
@@ -117,10 +105,8 @@ const validate=()=>{
             }
         }}
         />
-
         <TextField
           size="small"
-          // value={user}
           type="password"
           onChange={(e)=>setUserPass(e.target.value)}
           label={
@@ -152,7 +138,6 @@ const validate=()=>{
           </Button>
           <Button startIcon={<MdLogin />} variant="contained" sx={{backgroundColor:"#3D4C61"}} onClick={loginLogic}>
             <Typography fontFamily={"NX"}>دخول</Typography>
-            
           </Button>
         </Box>
         <Link>

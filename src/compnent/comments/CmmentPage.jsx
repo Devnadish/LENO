@@ -15,20 +15,19 @@ function CmmentPage() {
     const {login}=useUser()
     const [loading,setLoading]=useState(false)
     const [comments,setComments]=useState([])
-    
+    const [comment,setComment]=useState("")
     const fechdata=async ()=>{
         const { data, error } = await supabase.from('comment').select();
-        console.log(data)
+        // console.log(data)
         if (data.length===0){  toast.info("لايوجد تعليقك") }else{
             setComments(data)
         }
     }
 
 
-
     useEffect(() => {
         fechdata()
-    }, [])
+    }, [comment])
     
 
   return (
@@ -36,20 +35,18 @@ function CmmentPage() {
     <Box
       sx={{
         backgroundColor: "#BEF264",
-        width: "95%",
-        height: "60vh",
-        mt: "2rem",
+        width: "100%",
+        height: "65vh",
+        // mt: "1rem",
         display: "flex",
         border:"1px solid #E7EBF0",
         borderRadius: 2,
-        boxShadow: 12,
+        boxShadow: 1,
+        margin:"1rem auto"
       }}
     >
-
      
-      <BodyItem login={login} data={comments}/>
-
-      
+      <BodyItem login={login} data={comments}   comment={comment} setComment={setComment}/>
      
     </Box>
     </>
@@ -59,7 +56,7 @@ export default CmmentPage
 
 
 
-const BodyItem = ({login,data}) => {
+const BodyItem = ({login,data, comment,setComment}) => {
     const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
     return (
       <>
@@ -76,7 +73,7 @@ const BodyItem = ({login,data}) => {
             position: "relative",
           }}
         >
-          {login ? <WriteComment /> : <LoginPlease />}
+          {login ? <WriteComment  comment={comment} setComment={setComment}/> : <LoginPlease />}
           {data.map((el) => {
             return <React.Fragment key={el.id}>
           <Comment

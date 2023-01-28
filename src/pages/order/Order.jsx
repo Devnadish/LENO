@@ -25,8 +25,8 @@ function Order({price=1.5}) {
   const [total,setTotal]=useState(price*qty)
   const PRODUCTID=useParams()
   const itemData=getItem1(PRODUCTID.id)
-  console.log(PRODUCTID)
-  console.log(itemData)
+  // console.log(PRODUCTID)
+  // console.log(itemData)
   return (
     <>
       <Box sx={container} color={"primary.main"}>

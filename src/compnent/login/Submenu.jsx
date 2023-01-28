@@ -2,13 +2,13 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import {CiLogout,CiReceipt} from "react-icons/ci"
 import {MdOutlinePassword} from "react-icons/md"
 import {CgTrack} from "react-icons/cg"
+import { useNavigate } from 'react-router-dom';
 
 export default function Submenu({open,setOpen,anchorEl,setAnchorEl,logout,userName}) {
  
@@ -37,6 +37,18 @@ export default function Submenu({open,setOpen,anchorEl,setAnchorEl,logout,userNa
 
 
 const MenuItems = ({setOpen,logout,userName}) => {
+  const navigate=useNavigate()
+  const handleStatment=()=>{
+    setOpen(false)
+    navigate("/statment")
+
+  }
+  const ChangePasswrod=()=>{
+    setOpen(false)
+    navigate("/newpassword")
+
+  }
+  
   return (
     <>
       <Box
@@ -45,31 +57,30 @@ const MenuItems = ({setOpen,logout,userName}) => {
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          width:"300px",
-          borderBottom:"1px solid #ccc",
-          
+          width: "300px",
+          borderBottom: "1px solid #ccc",
         }}
       >
-      <Button
-        onClick={() => {
-          setOpen(false);
-        }}
-        variant={"contained"}
-        sx={{
-          minWidth: 0,
-          boxShadow: 0,
-          borderRadius: 0,
-          backgroundColor: "warning.light",
-          width: "25px",
-          height: "25px",
-        }}
-        // color={"warning"}
-      >
-        X
-      </Button>
-      <Typography mr={2} fontFamily={"NX"} color={"warning.dark"}>
-            مرحبا .. {userName}
-          </Typography>
+        <Button
+          onClick={() => {
+            setOpen(false);
+          }}
+          variant={"contained"}
+          sx={{
+            minWidth: 0,
+            boxShadow: 0,
+            borderRadius: 0,
+            backgroundColor: "warning.light",
+            width: "25px",
+            height: "25px",
+          }}
+          // color={"warning"}
+        >
+          X
+        </Button>
+        <Typography mr={2} fontFamily={"NX"} color={"warning.dark"}>
+          مرحبا .. {userName}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -77,53 +88,57 @@ const MenuItems = ({setOpen,logout,userName}) => {
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          width:"300px",
-          borderBottom:"1px solid #ccc",
-          "&:hover":{
+          width: "300px",
+          borderBottom: "1px solid #ccc",
+          "&:hover": {
             // boxShadow:1
-            backgroundColor:"#ccc"
-          }
+            backgroundColor: "#ccc",
+          },
         }}
       >
         <CgTrack />
-        <Typography color={"text.secondary"} fontFamily={"NX"}>متابعة الطلب</Typography>
+        <Typography color={"text.secondary"} fontFamily={"NX"}>
+          متابعة الطلب
+        </Typography>
       </Box>
-
+      {/* <Link to={"/statment"}> */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            p: 1,
+            borderBottom: "1px solid #ccc",
+            cursor:"pointer",
+            "&:hover": {
+              // boxShadow:1
+              backgroundColor: "#ccc",
+            },
+          }}
+          onClick={handleStatment}
+        >
+          <CiReceipt />
+          <Typography color={"text.secondary"} fontFamily={"NX"}>
+            كشف حساب
+          </Typography>
+        </Box>
+      {/* </Link> */}
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          borderBottom: "1px solid #ccc",
           p: 1,
-          borderBottom:"1px solid #ccc",
-          "&:hover":{
-            // boxShadow:1
-            backgroundColor:"#ccc"
-          }
-
+          "&:hover": {
+            backgroundColor: "#ccc",
+          },
         }}
-      >
-        <CiReceipt />
-        <Typography color={"text.secondary"} fontFamily={"NX"}>كشف حساب</Typography>
-      </Box>
-      
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom:"1px solid #ccc",
-          p: 1,
-          "&:hover":{
-            backgroundColor:"#ccc"
-          }
-        }}
-        onClick={logout}
+        onClick={ChangePasswrod}
       >
         <MdOutlinePassword />
         <Typography fontFamily={"NX"}>تغيير كلمة السر</Typography>
       </Box>
-    
 
       <Box
         sx={{
@@ -131,9 +146,9 @@ const MenuItems = ({setOpen,logout,userName}) => {
           alignItems: "center",
           justifyContent: "space-between",
           p: 1,
-          "&:hover":{
-            backgroundColor:"#ccc"
-          }
+          "&:hover": {
+            backgroundColor: "#ccc",
+          },
         }}
         onClick={logout}
       >

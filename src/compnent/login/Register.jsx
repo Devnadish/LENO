@@ -73,7 +73,7 @@ const { data:checkUser } = await supabase.from("user").select().eq("phone", user
 
 const handleUserImage=async (e)=>{
   const image = await resizeFile(userImage);
-  console.log(image);
+  // console.log(image);
   setUserImage(image)
   
 const {error}= await supabase.storage.from("leno/avatar").upload(`${userPhone}.jpg`,userImage, {

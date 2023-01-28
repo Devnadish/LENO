@@ -35,7 +35,7 @@ const Comment=({comment="التعليقات", date="10/10/2023", type="ورق ع
             <Typography
               variant="span"
               fontFamily={"NX"}
-              fontSize={".7rem"}
+              fontSize={".85rem"}
               color={"text.secondary"}
               p={0.5}
             >
